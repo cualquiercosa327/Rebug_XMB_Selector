@@ -43,7 +43,7 @@ void print(int x, int y, char* text, uint32_t* buffer)
 			for(i=0; i<FONT_W * FONT_H; i++){
 
 				if(consoleFont[-32+c][i] == 0){
-					if(sconsole.bgColor != FONT_COLOR_NONE)
+					if(sconsole.bgColor != FONT_COLOR_MOROON)
 						buffer[(sconsole.curY + tempy) * sconsole.screenWidth + sconsole.curX + tempx] = sconsole.bgColor;
 				}
 				else{

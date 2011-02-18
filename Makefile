@@ -12,11 +12,12 @@ INCLUDE		:=	include
 DATA		:=	data
 LIBS		:=	-lgcm_sys -lreality -lsysutil -lio
 
-TITLE		:=	rebugsprxer
+TITLE		:=	Rebug XMB Selector v1.1
 APPID		:=	REBG00001
 CONTENTID	:=	UP0001-$(APPID)_00-0000000000000000
 PKGFILES	:=	release
 SFOXML		:=	sfo.xml
+ICON0       	:= 	$(CURDIR)/ICON0.PNG
 
 CFLAGS		+= -O2 -Wall -std=gnu99
 CXXFLAGS	+= -O2 -Wall
@@ -57,7 +58,7 @@ export INCLUDES	:=	$(foreach dir,$(INCLUDE),-I$(CURDIR)/$(dir)) \
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	@make --no-print-directory -C $(BUILD) -f $(CURDIR)/Makefile
-
+	@cp $(ICON0) $(BUILD)
 clean:
 	@echo "[RM]  $(notdir $(OUTPUT))"
 	@rm -rf $(BUILD) $(OUTPUT).elf $(OUTPUT).self $(OUTPUT).a $(OUTPUT)*.pkg

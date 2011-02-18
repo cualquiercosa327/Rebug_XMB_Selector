@@ -1,4 +1,11 @@
-// rebugswapper - swap sprxs for Rebug
+/*
+ * Rebug XMB Selector v1.1- Swaps files for different XMB in Rebug
+ *
+ * Author: jjolano
+ *       : Cyberskunk
+ *
+ * ICON0 : evilsperm
+ */
 
 #include <psl1ght/lv2.h>
 #include <psl1ght/lv2/filesystem.h>
@@ -152,7 +159,7 @@ int main(int argc, const char* argv[])
 	init_screen();
 	ioPadInit(7);
 	
-	sconsoleInit(FONT_COLOR_BLACK, FONT_COLOR_GREEN, res.width, res.height);
+	sconsoleInit(FONT_COLOR_MOROON, FONT_COLOR_YELLOW, res.width, res.height);
 	
 	waitFlip();
 	
@@ -164,7 +171,7 @@ int main(int argc, const char* argv[])
 		Lv2Syscall8(837, (u64)"CELL_FS_IOS:BUILTIN_FLSH1", (u64)"CELL_FS_FAT", (u64)"/dev_blind", 0, 0, 0, 0, 0);
 	}
 	
-	strcpy(status, "Status: ready - dev_blind mounted");
+	strcpy(status, "  Status: Ready - dev_blind mounted");
 	
 	while(exitapp == 0)
 	{
@@ -227,6 +234,40 @@ int main(int argc, const char* argv[])
 					
 					sleep(1);
 				}
+				if(paddata.BTN_START)
+				{
+					if(copyfile("/dev_usb000/xRegistry.sys", "/dev_flash2/etc/xRegistry.sys") == 0)
+					{
+						strcpy(status, "Status: xRegistry.sys RESTORE SUCCESSFUL - PLEASE REBOOT");
+					}
+					else
+					{
+						strcpy(status, "Status: xRegistry.sys RESTORE FAILED");
+					}
+					
+					sleep(1);
+				}
+				if(paddata.BTN_SELECT)
+				{
+					if(copyfile("/dev_flash2/etc/xRegistry.sys", "/dev_usb000/xRegistry.sys") == 0)
+					{
+						strcpy(status, "Status: xRegistry.sys BACKUP SUCCESSFULL");
+					}
+					else
+					{
+						strcpy(status, "Status: xRegistry.sys BACKUP FAILED");
+					}
+					if(copyfile("/dev_flash2/etc/xRegistry.sys", "/dev_usb000/xRegistry.sys") == 0)
+					{
+						strcpy(status, "Status: xRegistry.sys BACKUP SUCCESSFULL");
+					}
+					else
+					{
+						strcpy(status, "Status: xRegistry.sys BACKUP FAILED");
+					}
+					
+					sleep(1);
+				}
 			}		
 		}
 		
@@ -234,17 +275,21 @@ int main(int argc, const char* argv[])
 		{
 			for(j = 0; j < res.width; j++)
 			{
-				buffers[currentBuffer]->ptr[i* res.width + j] = FONT_COLOR_BLACK;
+				buffers[currentBuffer]->ptr[i* res.width + j] = FONT_COLOR_MOROON;
 			}
 		}
 		
-		print(50, 50, "rebugsprxer v1.0", buffers[currentBuffer]->ptr);
-		print(50, 100, status, buffers[currentBuffer]->ptr);
+		print(60, 50, "**** Rebug XMB Selector v1.1 ****", buffers[currentBuffer]->ptr);
+		print(70, 100, status, buffers[currentBuffer]->ptr);
 		
-		print(50, 200, "Press CROSS to install: [Debug Menu 1]", buffers[currentBuffer]->ptr);
-		print(50, 250, "Press CIRCLE to install: [Debug Menu 2]", buffers[currentBuffer]->ptr);
-		print(50, 300, "Press SQUARE to install: [Debug XMB]", buffers[currentBuffer]->ptr);
-		print(50, 350, "Press TRIANGLE to install: [Retail XMB]", buffers[currentBuffer]->ptr);
+		print(60, 150, "Press CROSS to use: [Debug Menu 1]", buffers[currentBuffer]->ptr);
+		print(60, 180, "Press CIRCLE to use: [Debug Menu 2]", buffers[currentBuffer]->ptr);
+		print(60, 210, "Press SQUARE to use: [Debug XMB]", buffers[currentBuffer]->ptr);
+		print(60, 240, "Press TRIANGLE to use: [Retail XMB]", buffers[currentBuffer]->ptr);
+
+		print(60, 315, "** xRegistry.sys - Backup/Restore **", buffers[currentBuffer]->ptr);
+		print(60, 355, "Press SELECT to BACKUP xRegistry to USB000", buffers[currentBuffer]->ptr);
+		print(60, 385, "Press START to RESTORE xRegistry from USB000", buffers[currentBuffer]->ptr);
 		
 		flip(currentBuffer);
 		waitFlip();

@@ -16,6 +16,8 @@
 #define FONT_COLOR_RED   0x00ff0000
 #define FONT_COLOR_GREEN 0x0000ff00
 #define FONT_COLOR_BLUE  0x000000ff
+#define FONT_COLOR_YELLOW   0x00ffcc00
+#define FONT_COLOR_MOROON   0x00330000
 
 typedef struct{
 
